@@ -1,0 +1,35 @@
+*{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a{
+  text-decoration: none;
+}
+main{
+  text-align: center;
+}
+main .wrapper{
+  display: inline-block;
+}
+main .wrapper kbd{
+  width: 4em;
+  height: 4em;
+  display: inline-block;
+  border: 1px solid skyblue;
+  text-transform: uppercase;
+  position: relative;
+}
+main .wrapper kbd button{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+main .wrapper kbd:hover button{
+  display: inline;
+}
+main .wrapper div:nth-child(2){
+  margin-left: 2em;
+}
