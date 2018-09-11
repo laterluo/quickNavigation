@@ -6,30 +6,69 @@
 a{
   text-decoration: none;
 }
+body{
+  background: url(./images/bg.jpg) no-repeat;
+  background-size: cover;
+}
 main{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 main .wrapper{
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 30px 20px;
   display: inline-block;
 }
-main .wrapper kbd{
-  width: 4em;
-  height: 4em;
-  display: inline-block;
-  border: 1px solid skyblue;
-  text-transform: uppercase;
-  position: relative;
-}
-main .wrapper kbd button{
+.wrapper kbd button{
   position: absolute;
   right: 0;
   bottom: 0;
   display: none;
   cursor: pointer;
 }
-main .wrapper kbd:hover button{
+.wrapper kbd:hover button{
   display: inline;
 }
-main .wrapper div:nth-child(2){
-  margin-left: 2em;
+.wrapper .key{
+  display: inline-block;
+  text-transform: uppercase;
+  width: 64px; 
+  height: 46px; 
+  background: linear-gradient(to bottom, #292929 0%,#111111 100%); 
+  border: 1px solid #373737; 
+  color: #fff; 
+  border-radius: 6px; 
+	box-shadow: 0 0 0 1px #1A1B1C, 0 0 0 2px #1F2020, 0 3px 0 2px #080808; 
+	position: relative;
+  font-size: 16px; 
+  font-family: Helvetica;
+}
+.wrapper .row{
+  margin: 20px; 
+}
+.wrapper .row .key{
+  margin: 0 10px; 
+}
+.wrapper .row .key span{
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+.wrapper .row .key img{
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+}
+.wrapper .row .key button{
+  background: #fff;
+  border: none;
+  font-size: 12px;
+  border: 1px solid #f5f5f5;
+  border-radius: 3px;
 }

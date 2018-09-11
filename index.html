@@ -4,91 +4,152 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <link rel="shortcut icon" href="./favicon.ico">
+  <title>我的导航</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <header></header>
   <main>
-    <div class="wrapper" id="mainyyy"></div>
+    <div class="wrapper" id="main"></div>
   </main>
   <footer></footer>
 
   <script>
-		keys = {
-      '0': {0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
-      '1': {0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
-      '2': {0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
-      'length': 3
-    }
-    hash = {
-      q: 'qzone.qq.com',
-      w: 'weibo.com',
-      e: 'ele.me',
-      r: 'name.renren.com',      
-      t: 'taobao.com',
-      y: 'yixieshi.com',
-      u: 'uc.cn',
-      i: 'iconfont.cn',
-      o: 'aotu.io',
-      p: 'proginn.com',
-      a: 'alipay.com',
-      s: 'stackoverflow.com',
-      d: 'daimadog.com',
-      f: 'ifeng.com',
-      g: 'github.com',
-      h: 'huxiu.com',
-      j: 'juejin.im',
-      k: '36kr.com',
-      l: 'layui.com',
-      z: 'zhihu.com',
-      x: 'xunlei.com',
-      c: 'csdn.net',
-      v: 'v2ex.com',
-      b: 'bootcdn.cn',
-      n: 'cnodejs.org',
-      m: 'mint-ui.github.io/#!/zh-cn',
-    }
-    
-    // 取出 localStorage 中的 uuu 对应的 hash
-    hashInLocalStorage = JSON.parse(localStorage.getItem('uuu') || 'null')
-    if(hashInLocalStorage){
-      hash = hashInLocalStorage
-    }
-    
+    // 初始化数据
+    var hashInit = init()
+    var keys = hashInit['keys']
+    var hash = hashInit['hash']
+		
     // 遍历 key 生成 kbd
-    index = 0
-    while(index < keys.length){
-      divxxx = document.createElement('div')
-      mainyyy.appendChild(divxxx)
-      row = keys[index]  // 第一个数组、第二个数组、第三个数组
-      index2 = 0
-      while(index2 < row.length){
-        kbdzzz = document.createElement('kbd')
-        kbdzzz.textContent = row[index2]
-        buttonX = document.createElement('button')
-        buttonX.textContent = 'Edit'
-        kbdzzz.appendChild(buttonX)
-        buttonX.id = row[index2]  // q、w、e...
-        buttonX.onclick = function(abc){
-          keyX = abc.target.id
-          x = prompt('请输入新的网址')
-          hash[keyX] = x  //hash变更
-          localStorage.setItem('uuu', JSON.stringify(hash))
-          console.log(hash)
-        }
-        divxxx.appendChild(kbdzzz)
-        index2 = index2 + 1
-      }
-      index = index + 1
-    }
+    generateKBD(keys, hash)
+
     
     // 监听键盘事件
-    document.onkeypress = function(abc){
-      key = abc.key
-      webSite = hash[key]
-      // location.href = 'http://' + webSite
-      window.open('http://'+ webSite, '_black')
+    listenToUser(hash)
+
+
+    //下面是工具函数
+    function getFromLocalStorage(name){
+      return JSON.parse(localStorage.getItem(name) || 'null')
+    }
+
+    function tag(tagName, attributes){
+      var element = document.createElement(tagName)
+      for(var key in attributes){
+        element[key] = attributes[key]
+      }
+      return element
+    }
+
+    function createSpan(textContent){
+      var span = tag('span', {textContent: textContent})
+      return span
+    }
+
+    function createButton(id){
+      var button = tag('button', {textContent: 'Edit'})
+      button.id = id  // q、w、e...
+      button.onclick = function(e){
+        button2 = e.target
+        img2 = button2.previousSibling
+        keyX = button2.id
+        var x = prompt('请输入新的网址')
+        hash[keyX] = x  //hash变更
+        img2.src = 'http://' + x + '/favicon.ico'
+        img2.onerror = function(e){
+          e.target.src = '//wx2.sinaimg.cn/mw690/0060lm7Tly1fv5zxqzb2kj305k05k0so.jpg'
+        }
+        localStorage.setItem('uuu', JSON.stringify(hash))
+        console.log(hash)
+      }
+      return button
+    }
+
+    function createImg(domain){
+      var img = tag('img')
+      if(domain){
+        img.src = 'http://' + domain + '/favicon.ico'
+      }else{
+        img.src = '//wx2.sinaimg.cn/mw690/0060lm7Tly1fv5zxqzb2kj305k05k0so.jpg'
+      }
+      img.onerror = function(e){
+        e.target.src = '//wx2.sinaimg.cn/mw690/0060lm7Tly1fv5zxqzb2kj305k05k0so.jpg'
+      }
+      return img
+    }
+
+    function init(){
+      var keys = {
+        '0': {0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
+        '1': {0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
+        '2': {0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
+        'length': 3
+      }
+      var hash = {
+        q: 'qzone.qq.com',
+        w: 'weibo.com',
+        e: 'ele.me',
+        r: 'renren.com',      
+        t: 'taobao.com',
+        y: 'yixieshi.com',
+        u: 'uc.cn',
+        i: 'iconfont.cn',
+        o: 'aotu.io',
+        p: 'proginn.com',
+        a: 'alipay.com',
+        s: 'stackoverflow.com',
+        d: 'daimadog.com',
+        f: 'ifeng.com',
+        g: 'github.com',
+        h: 'huxiu.com',
+        j: 'jianshu.com',
+        k: '36kr.com',
+        l: 'layui.com',
+        z: 'zhihu.com',
+        x: 'xunlei.com',
+        c: 'csdn.net',
+        v: 'v2ex.com',
+        b: 'baidu.com',
+        n: 'nodejs.cn',
+        m: 'imooc.com',
+      }
+      // 取出 localStorage 中的 uuu 对应的 hash
+      hashInLocalStorage = getFromLocalStorage('uuu')
+      if(hashInLocalStorage){
+        hash = hashInLocalStorage
+      }
+      return {
+        'keys': keys,
+        'hash': hash
+      }
+    }
+
+    function generateKBD(keys, hash){
+      for(var index=0; index<keys.length; index++){
+        var div = tag('div', {className: 'row'})
+        main.appendChild(div)
+        var row = keys[index]  // 第一个数组、第二个数组、第三个数组
+        for(var index2=0; index2<row.length; index2++){
+          var span = createSpan(row[index2])
+          var button = createButton(row[index2])
+          var img = createImg(hash[row[index2]])
+          var kbd = tag('kbd', {className: 'key'})
+          kbd.appendChild(span)
+          kbd.appendChild(button)
+          kbd.appendChild(img)
+          div.appendChild(kbd)
+        }
+      }
+    }
+
+    function listenToUser(hash){
+      document.onkeypress = function(e){
+        var key = e.key
+        var webSite = hash[key]
+        // location.href = 'http://' + webSite
+        window.open('http://'+ webSite, '_black')
+      }
     }
   </script>
 </body>
